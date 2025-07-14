@@ -1,0 +1,111 @@
+package gift.service.product;
+
+import gift.dto.api.product.AddProductRequestDto;
+import gift.dto.api.product.ModifyProductRequestDto;
+import gift.dto.api.product.ProductResponseDto;
+import gift.entity.Product;
+import gift.exception.badrequest.CheckMdOkException;
+import gift.exception.badrequest.FillAllInfoException;
+import gift.exception.badrequest.FillSomeInfoException;
+import gift.repository.product.ProductRepository;
+import java.util.List;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductServiceImpl implements ProductService {
+    
+    private final ProductRepository productRepository;
+    
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+    
+    //상품 추가 Service
+    @Override
+    public ProductResponseDto addProduct(AddProductRequestDto requestDto) {
+        
+        if(!requestDto.goodName()) {
+            throw new CheckMdOkException();
+        }
+        
+        Product product = new Product(
+            0L,
+            requestDto.name(),
+            requestDto.price(),
+            requestDto.imageUrl()
+        );
+        
+        return productRepository.addProduct(product);
+    }
+    
+    //상품 전체 조회
+    @Override
+    public List<ProductResponseDto> findAllProducts() {
+        return productRepository.findAllProducts();
+    }
+    
+    //상품 단건 조회
+    @Override
+    public ProductResponseDto findProductWithId(Long id) {
+        Product product = productRepository.findProductWithId(id);
+        return new ProductResponseDto(product);
+    }
+    
+    //상품 수정 (상품 자체가 다른 것으로 바뀜)
+    @Override
+    public ProductResponseDto modifyProductWithId(Long id,
+        ModifyProductRequestDto requestDto) {
+        Product product = productRepository.findProductWithId(id);
+        
+        if (requestDto.isNotValidForModify()) {
+            throw new FillAllInfoException();
+        }
+        
+        if(!requestDto.goodName()) {
+            throw new CheckMdOkException();
+        }
+        
+        Product newProduct = new Product(
+            id,
+            requestDto.name(),
+            requestDto.price(),
+            requestDto.imageUrl()
+        );
+        
+        return productRepository.modifyProductWithId(id,
+            newProduct);
+    }
+    
+    //상품 단건 삭제
+    @Override
+    public void deleteProductWithId(Long id) {
+        Product product = productRepository.findProductWithId(id);
+        productRepository.deleteProductWithId(id);
+    }
+    
+    //상품 수정 (일부 내용이 바뀜)
+    @Override
+    public ProductResponseDto modifyProductInfoWithId(Long id,
+        ModifyProductRequestDto requestDto) {
+        Product product = productRepository.findProductWithId(id);
+        
+        if (requestDto.isNotValidForModifyInfo()) {
+            throw new FillSomeInfoException();
+        }
+        
+        if(!requestDto.goodName()) {
+            throw new CheckMdOkException();
+        }
+        
+        Product newProduct = new Product(
+            id,
+            requestDto.name() != null ? requestDto.name() : product.getName(),
+            requestDto.price() != null ? requestDto.price() : product.getPrice(),
+            requestDto.imageUrl() != null ? requestDto.imageUrl() : product.getImageUrl()
+        );
+        
+        return productRepository.modifyProductWithId(id,
+            newProduct);
+    }
+    
+}
