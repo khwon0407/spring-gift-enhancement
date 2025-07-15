@@ -12,6 +12,7 @@ import gift.repository.product.ProductRepositoryJpa;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -24,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
     
     //상품 추가 Service
     @Override
+    @Transactional
     public ProductResponseDto addProduct(AddProductRequestDto requestDto) {
         
         if(!requestDto.goodName()) {
@@ -59,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
     
     //상품 수정 (상품 자체가 다른 것으로 바뀜)
     @Override
+    @Transactional
     public ProductResponseDto modifyProductWithId(Long id,
         ModifyProductRequestDto requestDto) {
         
@@ -81,12 +84,14 @@ public class ProductServiceImpl implements ProductService {
     
     //상품 단건 삭제
     @Override
+    @Transactional
     public void deleteProductWithId(Long id) {
         productRepositoryJpa.deleteById(id);
     }
     
     //상품 수정 (일부 내용이 바뀜)
     @Override
+    @Transactional
     public ProductResponseDto modifyProductInfoWithId(Long id,
         ModifyProductRequestDto requestDto) {
         

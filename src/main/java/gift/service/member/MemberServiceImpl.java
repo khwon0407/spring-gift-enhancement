@@ -8,6 +8,7 @@ import gift.exception.conflict.AlreadyRegisteredException;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
 import gift.repository.member.MemberRepositoryJpa;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -18,6 +19,7 @@ public class MemberServiceImpl implements MemberService {
     }
     
     @Override
+    @Transactional
     public LoginRequestDto registerMember(MemberRequestDto requestDto) {
         if (memberRepositoryJpa.existsByEmail(requestDto.email())) {
             throw new AlreadyRegisteredException();

@@ -14,6 +14,7 @@ import gift.repository.wishlist.WishlistRepositoryJpa;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class WishlistServiceImpl implements WishlistService {
@@ -28,6 +29,7 @@ public class WishlistServiceImpl implements WishlistService {
     }
     
     @Override
+    @Transactional
     public WishlistResponseDto addToMyWishlist(Member user, WishlistRequestDto requestDto) {
         
         Product product = productRepositoryJpa.findById(requestDto.productId()).orElseThrow(
@@ -59,6 +61,7 @@ public class WishlistServiceImpl implements WishlistService {
     }
     
     @Override
+    @Transactional
     public void deleteFromMyWishlist(Member user, Long productId) {
         Product product = productRepositoryJpa.findById(productId).orElseThrow(NoProductInfoException::new);
         
@@ -69,6 +72,7 @@ public class WishlistServiceImpl implements WishlistService {
     }
     
     @Override
+    @Transactional
     public WishlistResponseDto modifyProductCntFromMyWishlist(Member user,
         WishlistRequestDto requestDto) {
         Product product = productRepositoryJpa.findById(requestDto.productId())
