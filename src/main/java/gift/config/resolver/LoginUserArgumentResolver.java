@@ -24,8 +24,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws HttpException {
         
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        Member member = (Member) request.getAttribute("member");
         
-        return member.getId();
+        return (Member) request.getAttribute("member");
     }
 }
