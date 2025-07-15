@@ -11,18 +11,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-    //private final MemberRepository memberRepository;
     private final MemberRepositoryJpa memberRepositoryJpa;
     
     public MemberServiceImpl(MemberRepositoryJpa memberRepositoryJpa) {
         this.memberRepositoryJpa = memberRepositoryJpa;
     }
-    
-    /*
-    public MemberServiceImpl(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
-    */
     
     @Override
     public LoginRequestDto registerMember(MemberRequestDto requestDto) {
