@@ -5,23 +5,24 @@ import gift.dto.api.member.LoginRequestDto;
 import gift.dto.api.member.MemberResponseDto;
 import gift.entity.Member;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
-import gift.repository.member.MemberRepository;
+import gift.repository.member.MemberRepositoryJpa;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
     
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryJpa memberRepositoryJpa;
     private final JwtProvider jwtProvider;
     
-    public AuthServiceImpl(MemberRepository memberRepository, JwtProvider jwtProvider) {
-        this.memberRepository = memberRepository;
+    public AuthServiceImpl(MemberRepositoryJpa memberRepositoryJpa, JwtProvider jwtProvider) {
+        this.memberRepositoryJpa = memberRepositoryJpa;
         this.jwtProvider = jwtProvider;
     }
     
     @Override
     public MemberResponseDto login(LoginRequestDto requestDto) {
-        Member member = memberRepository.findMemberByEmail(requestDto.email());
+        Member member = memberRepositoryJpa.findByEmail(requestDto.email())
+            .orElseThrow(WrongIdOrPasswordException::new);
         
         if(!member.getPassword().equals(requestDto.password())) {
             throw new WrongIdOrPasswordException();
