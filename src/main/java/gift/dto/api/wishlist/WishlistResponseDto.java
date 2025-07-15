@@ -14,6 +14,10 @@ public class WishlistResponseDto {
         this.productCnt = productCnt;
     }
     
+    public WishlistResponseDto() {
+        this(null, null, null);
+    }
+    
     public WishlistResponseDto(WishlistInfo wishlistInfo) {
         this(wishlistInfo.getProduct().getId(), wishlistInfo.getProduct().getName(),
             wishlistInfo.getProductCnt());

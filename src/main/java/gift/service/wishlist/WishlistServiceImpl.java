@@ -44,15 +44,13 @@ public class WishlistServiceImpl implements WishlistService {
     
     @Override
     public List<WishlistResponseDto> findMyWishlist(Member user) {
-        List<WishlistInfo> myWishlist = wishlistRepositoryJpa.findAllByMemberId(user.getId());
-        
-        List<WishlistResponseDto> responseDtoList = new ArrayList<>();
-        for (WishlistInfo info : myWishlist) {
-            WishlistResponseDto dto = new WishlistResponseDto(info);
-            responseDtoList.add(dto);
-        }
-        
-        return responseDtoList;
+        return wishlistRepositoryJpa.findAllByMemberId(user.getId()).stream()
+            .map(w -> new WishlistResponseDto(
+                w.getProduct().getId(),
+                w.getProduct().getName(),
+                w.getProductCnt()
+            ))
+            .toList();
     }
     
     @Override
