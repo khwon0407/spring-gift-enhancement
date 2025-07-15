@@ -16,19 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductServiceImpl implements ProductService {
     
-    //private final ProductRepository productRepository;
     private final ProductRepositoryJpa productRepositoryJpa;
     
     public ProductServiceImpl(ProductRepositoryJpa productRepositoryJpa) {
         this.productRepositoryJpa = productRepositoryJpa;
     }
-    
-    /*
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-    */
-    
     
     //상품 추가 Service
     @Override

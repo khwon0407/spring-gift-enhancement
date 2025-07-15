@@ -6,6 +6,7 @@ import gift.dto.api.member.MemberResponseDto;
 import gift.entity.Member;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
 import gift.repository.member.MemberRepository;
+import gift.repository.member.MemberRepositoryJpa;
 import org.springframework.stereotype.Service;
 
 @Service

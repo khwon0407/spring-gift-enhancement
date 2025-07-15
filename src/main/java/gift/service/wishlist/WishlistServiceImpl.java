@@ -18,11 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class WishlistServiceImpl implements WishlistService {
     
-    /*
-    private final WishlistRepository wishlistRepository;
-    private final ProductRepository productRepository;
-    private final MemberRepository memberRepository;
-    */
     private final ProductRepositoryJpa productRepositoryJpa;
     private final WishlistRepositoryJpa wishlistRepositoryJpa;
     
@@ -31,15 +26,6 @@ public class WishlistServiceImpl implements WishlistService {
         this.productRepositoryJpa = productRepositoryJpa;
         this.wishlistRepositoryJpa = wishlistRepositoryJpa;
     }
-    
-    /*
-    public WishlistServiceImpl(WishlistRepository wishlistRepository,
-        ProductRepository productRepository, MemberRepository memberRepository) {
-        this.wishlistRepository = wishlistRepository;
-        this.productRepository = productRepository;
-        this.memberRepository = memberRepository;
-    }
-    */
     
     @Override
     public WishlistResponseDto addToMyWishlist(Member user, WishlistRequestDto requestDto) {
