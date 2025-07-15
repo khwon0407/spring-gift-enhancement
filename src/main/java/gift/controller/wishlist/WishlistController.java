@@ -4,6 +4,7 @@ import gift.config.annotation.CurrentUser;
 import gift.config.annotation.ValidHeader;
 import gift.dto.api.wishlist.WishlistRequestDto;
 import gift.dto.api.wishlist.WishlistResponseDto;
+import gift.entity.Member;
 import gift.service.wishlist.WishlistService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -30,29 +31,29 @@ public class WishlistController {
     @GetMapping
     @ValidHeader
     public ResponseEntity<List<WishlistResponseDto>> findMyWishlist(
-        @CurrentUser Long userId
+        @CurrentUser Member user
     ) {
-        List<WishlistResponseDto> myWishlist = wishlistService.findMyWishlistByUserId(userId);
+        List<WishlistResponseDto> myWishlist = wishlistService.findMyWishlistByUserId(user);
         return new ResponseEntity<>(myWishlist, HttpStatus.OK);
     }
     
     @PostMapping
     @ValidHeader
     public ResponseEntity<WishlistResponseDto> addToMyWishlist(
-        @CurrentUser Long userId,
+        @CurrentUser Member user,
         @RequestBody WishlistRequestDto requestDto
     ) {
-        WishlistResponseDto responseDto = wishlistService.addToMyWishlist(userId, requestDto);
+        WishlistResponseDto responseDto = wishlistService.addToMyWishlist(user, requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
     
     @DeleteMapping("/{productId}")
     @ValidHeader
     public ResponseEntity<Void> deleteToMyWishlist(
-        @CurrentUser Long userId,
+        @CurrentUser Member user,
         @PathVariable(name = "productId") Long id
     ) {
-        wishlistService.deleteFromMyWishlist(userId, id);
+        wishlistService.deleteFromMyWishlist(user, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
@@ -60,10 +61,10 @@ public class WishlistController {
     @PatchMapping
     @ValidHeader
     public ResponseEntity<?> modifyProductCntFromMyWishlist(
-        @CurrentUser Long userId,
+        @CurrentUser Member user,
         @RequestBody WishlistRequestDto requestDto
     ) {
-        WishlistResponseDto responseDto = wishlistService.modifyProductCntFromMyWishlist(userId, requestDto);
+        WishlistResponseDto responseDto = wishlistService.modifyProductCntFromMyWishlist(user, requestDto);
         if(responseDto == null) {
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }
