@@ -39,8 +39,7 @@ public class WishlistServiceImpl implements WishlistService {
             new WishlistInfo(null, user, product, requestDto.productCnt())
         );
         
-        return new WishlistResponseDto(saved.getId(), saved.getProduct().getName(),
-            saved.getProductCnt());
+        return new WishlistResponseDto(saved);
     }
     
     @Override
@@ -49,11 +48,7 @@ public class WishlistServiceImpl implements WishlistService {
         
         List<WishlistResponseDto> responseDtoList = new ArrayList<>();
         for (WishlistInfo info : myWishlist) {
-            WishlistResponseDto dto = new WishlistResponseDto(
-                info.getId(),
-                info.getProduct().getName(),
-                info.getProductCnt()
-            );
+            WishlistResponseDto dto = new WishlistResponseDto(info);
             responseDtoList.add(dto);
         }
         

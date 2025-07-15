@@ -20,7 +20,7 @@ public class Product {
     @Column(name = "price", nullable = false)
     private Long price;
     
-    @Column(name = "imageUrl", nullable = false)
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
     
     public Product(Long id, String name, Long price, String imageUrl) {
