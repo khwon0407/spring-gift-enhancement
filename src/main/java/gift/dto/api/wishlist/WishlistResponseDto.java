@@ -1,5 +1,7 @@
 package gift.dto.api.wishlist;
 
+import gift.entity.WishlistInfo;
+
 public class WishlistResponseDto {
     
     private Long productId;
@@ -10,6 +12,11 @@ public class WishlistResponseDto {
         this.productId = productId;
         this.productName = productName;
         this.productCnt = productCnt;
+    }
+    
+    public WishlistResponseDto(WishlistInfo wishlistInfo) {
+        this(wishlistInfo.getProduct().getId(), wishlistInfo.getProduct().getName(),
+            wishlistInfo.getProductCnt());
     }
     
     public Long getProductId() {

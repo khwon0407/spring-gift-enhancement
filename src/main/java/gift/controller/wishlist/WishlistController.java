@@ -33,7 +33,7 @@ public class WishlistController {
     public ResponseEntity<List<WishlistResponseDto>> findMyWishlist(
         @CurrentUser Member user
     ) {
-        List<WishlistResponseDto> myWishlist = wishlistService.findMyWishlistByUserId(user);
+        List<WishlistResponseDto> myWishlist = wishlistService.findMyWishlist(user);
         return new ResponseEntity<>(myWishlist, HttpStatus.OK);
     }
     

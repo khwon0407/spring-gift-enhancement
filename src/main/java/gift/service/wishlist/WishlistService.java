@@ -2,15 +2,16 @@ package gift.service.wishlist;
 
 import gift.dto.api.wishlist.WishlistRequestDto;
 import gift.dto.api.wishlist.WishlistResponseDto;
+import gift.entity.Member;
 import java.util.List;
 
 public interface WishlistService {
     
-    WishlistResponseDto addToMyWishlist(Long userId, WishlistRequestDto requestDto);
+    WishlistResponseDto addToMyWishlist(Member user, WishlistRequestDto requestDto);
     
-    List<WishlistResponseDto> findMyWishlistByUserId(Long userId);
+    List<WishlistResponseDto> findMyWishlist(Member user);
     
-    void deleteFromMyWishlist(Long userId, Long productId);
+    void deleteFromMyWishlist(Member user, Long productId);
     
-    WishlistResponseDto modifyProductCntFromMyWishlist(Long userId, WishlistRequestDto requestDto);
+    WishlistResponseDto modifyProductCntFromMyWishlist(Member user, WishlistRequestDto requestDto);
 }

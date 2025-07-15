@@ -13,9 +13,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "wishlist")
+@Table(name = "wishlist", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"member_id", "product_id"})
+})
 public class WishlistInfo {
     
     @Id
@@ -23,11 +26,11 @@ public class WishlistInfo {
     private Long Id;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId", nullable = false, foreignKey = @ForeignKey(name = "fk_wishlist_member"))
+    @JoinColumn(name = "member_id", nullable = false, foreignKey = @ForeignKey(name = "fk_wishlist_member"))
     private Member member;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId", nullable = false, foreignKey = @ForeignKey(name = "fk_wishlist_product"))
+    @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_wishlist_product"))
     private Product product;
     
     @Column(name = "productCnt", nullable = false)
@@ -62,5 +65,13 @@ public class WishlistInfo {
     
     public Long getProductCnt() {
         return productCnt;
+    }
+    
+    public Long getId() {
+        return Id;
+    }
+    
+    public void setProductCnt(Long productCnt) {
+        this.productCnt = productCnt;
     }
 }
