@@ -7,7 +7,6 @@ import gift.exception.common.HttpException;
 import gift.exception.forbidden.WrongPermissionException;
 import gift.exception.unauthorized.WrongHeaderException;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
-import gift.repository.member.MemberRepository;
 import gift.repository.member.MemberRepositoryJpa;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
