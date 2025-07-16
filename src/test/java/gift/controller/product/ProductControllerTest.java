@@ -153,7 +153,7 @@ class ProductControllerTest {
     void 전체_상품_검색을_시도한다() {
         
         var response = restClient.get()
-            .uri("/api/products")
+            .uri("/api/products?page=0&size=2&criteria=id")
             .retrieve()
             .body(ProductResponseDto[].class);
         
