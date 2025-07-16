@@ -33,9 +33,9 @@ public class WishlistController {
     @ValidHeader
     public ResponseEntity<List<WishlistResponseDto>> findMyWishlist(
         @CurrentUser Member user,
-        @RequestParam(required = false, value = "page") int pageNo,
-        @RequestParam(required = false, value = "size") int pageSize,
-        @RequestParam(required = false, value = "criteria") String criteria
+        @RequestParam(required = false, value = "page", defaultValue = "0") int pageNo,
+        @RequestParam(required = false, value = "size", defaultValue = "10") int pageSize,
+        @RequestParam(required = false, value = "criteria", defaultValue = "id") String criteria
     ) {
         List<WishlistResponseDto> myWishlist = wishlistService.findMyWishlist(user, pageNo, pageSize, criteria);
         return new ResponseEntity<>(myWishlist, HttpStatus.OK);

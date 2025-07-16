@@ -42,9 +42,9 @@ public class ProductController {
     
     @GetMapping
     public ResponseEntity<List<ProductResponseDto>> findAllProducts(
-        @RequestParam(required = false, value = "page") int pageNo,
-        @RequestParam(required = false, value = "size") int pageSize,
-        @RequestParam(required = false, value = "criteria") String criteria
+        @RequestParam(required = false, value = "page", defaultValue = "0") int pageNo,
+        @RequestParam(required = false, value = "size", defaultValue = "10") int pageSize,
+        @RequestParam(required = false, value = "criteria", defaultValue = "id") String criteria
     ) {
         List<ProductResponseDto> responseDtoList = productService.findAllProducts(pageNo, pageSize, criteria);
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
