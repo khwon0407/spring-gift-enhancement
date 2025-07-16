@@ -43,9 +43,10 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductResponseDto>> findAllProducts(
         @RequestParam(required = false, value = "page") Long pageNo,
+        @RequestParam(required = false, value = "size") Long pageSize,
         @RequestParam(required = false, value = "criteria") String criteria
     ) {
-        List<ProductResponseDto> responseDtoList = productService.findAllProducts(pageNo, criteria);
+        List<ProductResponseDto> responseDtoList = productService.findAllProducts(pageNo, pageSize, criteria);
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
     
