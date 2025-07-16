@@ -33,7 +33,7 @@ public class ProductViewController {
     //main 화면, 상품 목록
     @GetMapping
     public String showListView(Model model) {
-        List<ProductResponseDto> products = productService.findAllProducts(0L, "id");
+        List<ProductResponseDto> products = productService.findAllProducts(0, 10, "id");
         model.addAttribute("products", products);
         return "product-list";
     }
