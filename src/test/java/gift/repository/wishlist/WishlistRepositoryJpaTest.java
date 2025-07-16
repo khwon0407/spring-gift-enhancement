@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -45,8 +49,8 @@ class WishlistRepositoryJpaTest {
         );
         
         wishlistRepositoryJpa.save(wishlistInfo);
-        
-        var actual = wishlistRepositoryJpa.findAllByMemberId(2L).get(0).getProductCnt();
+        Pageable pageable = PageRequest.of(0, 1, Sort.by(Direction.ASC, "id"));
+        var actual = wishlistRepositoryJpa.findAllByMemberId(2L, pageable).getContent().get(0).getProductCnt();
         
         assertThat(actual).isEqualTo(wishlistInfo.getProductCnt());
     }
