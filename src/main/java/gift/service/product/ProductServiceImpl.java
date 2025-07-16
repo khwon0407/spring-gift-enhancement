@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
     //상품 전체 조회
     @Override
     public List<ProductResponseDto> findAllProducts(int pageNo, int pageSize, String criteria) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, criteria));
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Direction.ASC, criteria));
         Page<ProductResponseDto> page =  productRepositoryJpa.findAll(pageable).map(ProductResponseDto::new);
         return page.getContent();
     }
