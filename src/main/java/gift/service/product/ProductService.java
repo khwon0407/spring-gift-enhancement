@@ -9,7 +9,7 @@ public interface ProductService {
     
     ProductResponseDto addProduct(AddProductRequestDto requestDto);
     
-    List<ProductResponseDto> findAllProducts();
+    List<ProductResponseDto> findAllProducts(int pageNo, int pageSize, String criteria);
     
     ProductResponseDto findProductWithId(Long id);
     

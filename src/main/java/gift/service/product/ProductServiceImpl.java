@@ -11,6 +11,10 @@ import gift.exception.notfound.NoProductInfoException;
 import gift.repository.product.ProductRepositoryJpa;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,10 +50,10 @@ public class ProductServiceImpl implements ProductService {
     
     //상품 전체 조회
     @Override
-    public List<ProductResponseDto> findAllProducts() {
-        return productRepositoryJpa.findAll().stream()
-            .map(ProductResponseDto::new)
-            .collect(Collectors.toList());
+    public List<ProductResponseDto> findAllProducts(int pageNo, int pageSize, String criteria) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, criteria));
+        Page<ProductResponseDto> page =  productRepositoryJpa.findAll(pageable).map(ProductResponseDto::new);
+        return page.getContent();
     }
     
     //상품 단건 조회
