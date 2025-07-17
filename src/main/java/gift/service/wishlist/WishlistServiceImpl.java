@@ -51,10 +51,10 @@ public class WishlistServiceImpl implements WishlistService {
     public List<WishlistResponseDto> findMyWishlist(Member user, int pageNo, int pageSize, String criteria) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Direction.ASC, criteria));
         Page<WishlistResponseDto> page = wishlistRepositoryJpa.findAllByMemberId(user.getId(), pageable)
-            .map(w -> new WishlistResponseDto(
-                w.getProduct().getId(),
-                w.getProduct().getName(),
-                w.getProductCnt()
+            .map(wishlist -> new WishlistResponseDto(
+                wishlist.getProduct().getId(),
+                wishlist.getProduct().getName(),
+                wishlist.getProductCnt()
             ));
         return page.getContent();
     }

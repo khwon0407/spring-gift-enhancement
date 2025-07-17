@@ -80,9 +80,7 @@ public class ProductServiceImpl implements ProductService {
         
         Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
         
-        product.setName(requestDto.name());
-        product.setPrice(requestDto.price());
-        product.setImageUrl(requestDto.imageUrl());
+        product.changeProductInfo(requestDto.name(), requestDto.price(), requestDto.imageUrl());
         
         return new ProductResponseDto(productRepositoryJpa.save(product));
     }
@@ -110,9 +108,11 @@ public class ProductServiceImpl implements ProductService {
         
         Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
         
-        product.setName(requestDto.name() != null ? requestDto.name() : product.getName());
-        product.setPrice(requestDto.price() != null ? requestDto.price() : product.getPrice());
-        product.setImageUrl(requestDto.imageUrl() != null ? requestDto.imageUrl() : product.getImageUrl());
+        product.changeProductInfo(
+            requestDto.name() != null ? requestDto.name() : product.getName(),
+            requestDto.price() != null ? requestDto.price() : product.getPrice(),
+            requestDto.imageUrl() != null ? requestDto.imageUrl() : product.getImageUrl()
+        );
         
         return new ProductResponseDto(productRepositoryJpa.save(product));
     }

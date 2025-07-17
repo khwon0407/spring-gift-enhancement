@@ -54,6 +54,12 @@ public class Product {
         this.name = name;
     }
     
+    public void changeProductInfo(String name, Long price, String imageUrl) {
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
+    
     public void setPrice(Long price) {
         this.price = price;
     }
