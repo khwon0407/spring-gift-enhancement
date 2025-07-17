@@ -71,10 +71,6 @@ public class WishlistInfo {
         return Id;
     }
     
-    public void setProductCnt(Long productCnt) {
-        this.productCnt = productCnt;
-    }
-    
     public void changeProductCnt(Long productCnt) {
         this.productCnt = productCnt;
     }

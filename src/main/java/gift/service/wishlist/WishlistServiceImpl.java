@@ -85,7 +85,7 @@ public class WishlistServiceImpl implements WishlistService {
             return null;
         }
         
-        wishlistInfo.setProductCnt(requestDto.productCnt());
+        wishlistInfo.changeProductCnt(requestDto.productCnt());
         
         return new WishlistResponseDto(wishlistRepositoryJpa.save(wishlistInfo));
     }
