@@ -1,10 +1,14 @@
 package gift.entity;
 
+import gift.exception.badrequest.WrongPriceException;
+import gift.exception.badrequest.WrongProductCntException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +26,14 @@ public class Product {
     
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
+    
+    @PrePersist
+    @PreUpdate
+    private void validatePrice() {
+        if (price == null || price < 0) {
+            throw new WrongPriceException();
+        }
+    }
     
     public Product(Long id, String name, Long price, String imageUrl) {
         this.id = id;
@@ -50,15 +62,9 @@ public class Product {
         return imageUrl;
     }
     
-    public void setName(String name) {
+    public void changeProductInfo(String name, Long price, String imageUrl) {
         this.name = name;
-    }
-    
-    public void setPrice(Long price) {
         this.price = price;
-    }
-    
-    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 }

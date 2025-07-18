@@ -9,7 +9,7 @@ public interface WishlistService {
     
     WishlistResponseDto addToMyWishlist(Member user, WishlistRequestDto requestDto);
     
-    List<WishlistResponseDto> findMyWishlist(Member user);
+    List<WishlistResponseDto> findMyWishlist(Member user, int pageNo, int pageSize, String criteria);
     
     void deleteFromMyWishlist(Member user, Long productId);
     

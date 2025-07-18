@@ -1,6 +1,7 @@
 package gift.dto.api.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -10,6 +11,7 @@ public record ModifyProductRequestDto(
         message = "이름은 한글, 영문, 숫자, 공백, (), [], +, -, &, /, _ 만 포함할 수 있으며 최대 15자까지 입력 가능합니다."
     )
     String name,
+    @Min(value = 0, message = "가격은 0원 이상이어야 합니다.")
     Long price,
     String imageUrl,
     @NotNull(

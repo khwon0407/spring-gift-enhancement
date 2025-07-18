@@ -1,6 +1,7 @@
 package gift.dto.api.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -12,6 +13,7 @@ public record AddProductRequestDto(
     @NotNull(message = "이름은 필수입니다.")
     String name,
     @NotNull(message = "가격은 필수입니다.")
+    @Min(value = 0, message = "가격은 0원 이상이어야 합니다.")
     Long price,
     @NotNull(message = "이미지 url은 필수입니다.")
     String imageUrl,

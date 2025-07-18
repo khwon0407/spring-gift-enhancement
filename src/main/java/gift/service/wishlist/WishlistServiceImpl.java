@@ -13,6 +13,11 @@ import gift.repository.product.ProductRepositoryJpa;
 import gift.repository.wishlist.WishlistRepositoryJpa;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,14 +48,15 @@ public class WishlistServiceImpl implements WishlistService {
     }
     
     @Override
-    public List<WishlistResponseDto> findMyWishlist(Member user) {
-        return wishlistRepositoryJpa.findAllByMemberId(user.getId()).stream()
-            .map(w -> new WishlistResponseDto(
-                w.getProduct().getId(),
-                w.getProduct().getName(),
-                w.getProductCnt()
-            ))
-            .toList();
+    public List<WishlistResponseDto> findMyWishlist(Member user, int pageNo, int pageSize, String criteria) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Direction.ASC, criteria));
+        Page<WishlistResponseDto> page = wishlistRepositoryJpa.findAllByMemberId(user.getId(), pageable)
+            .map(wishlist -> new WishlistResponseDto(
+                wishlist.getProduct().getId(),
+                wishlist.getProduct().getName(),
+                wishlist.getProductCnt()
+            ));
+        return page.getContent();
     }
     
     @Override
@@ -79,7 +85,7 @@ public class WishlistServiceImpl implements WishlistService {
             return null;
         }
         
-        wishlistInfo.setProductCnt(requestDto.productCnt());
+        wishlistInfo.changeProductCnt(requestDto.productCnt());
         
         return new WishlistResponseDto(wishlistRepositoryJpa.save(wishlistInfo));
     }

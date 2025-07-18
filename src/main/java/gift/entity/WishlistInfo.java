@@ -33,7 +33,7 @@ public class WishlistInfo {
     @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_wishlist_product"))
     private Product product;
     
-    @Column(name = "productCnt", nullable = false)
+    @Column(name = "product_cnt", nullable = false)
     private Long productCnt;
     
     @PrePersist
@@ -71,7 +71,7 @@ public class WishlistInfo {
         return Id;
     }
     
-    public void setProductCnt(Long productCnt) {
+    public void changeProductCnt(Long productCnt) {
         this.productCnt = productCnt;
     }
 }

@@ -3,13 +3,13 @@ package gift.service.product;
 import gift.dto.api.product.AddProductRequestDto;
 import gift.dto.api.product.ModifyProductRequestDto;
 import gift.dto.api.product.ProductResponseDto;
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface ProductService {
     
     ProductResponseDto addProduct(AddProductRequestDto requestDto);
     
-    List<ProductResponseDto> findAllProducts();
+    Page<ProductResponseDto> findAllProducts(int pageNo, int pageSize, String criteria);
     
     ProductResponseDto findProductWithId(Long id);
     
