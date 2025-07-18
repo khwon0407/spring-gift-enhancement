@@ -46,7 +46,9 @@ public class ProductController {
         @RequestParam(required = false, value = "size", defaultValue = "10") int pageSize,
         @RequestParam(required = false, value = "criteria", defaultValue = "id") String criteria
     ) {
-        List<ProductResponseDto> responseDtoList = productService.findAllProducts(pageNo, pageSize, criteria);
+        List<ProductResponseDto> responseDtoList = productService
+            .findAllProducts(pageNo, pageSize, criteria)
+            .getContent();
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
     
