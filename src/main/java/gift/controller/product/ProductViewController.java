@@ -8,6 +8,7 @@ import gift.dto.htmlform.ModifyProductForm;
 import gift.service.product.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -32,9 +34,17 @@ public class ProductViewController {
     
     //main 화면, 상품 목록
     @GetMapping
-    public String showListView(Model model) {
-        List<ProductResponseDto> products = productService.findAllProducts(0, 10, "id");
-        model.addAttribute("products", products);
+    public String showListView(
+        @RequestParam(name = "page", required = false, defaultValue = "0") int pageNo,
+        @RequestParam(name = "size", required = false, defaultValue = "2") int pageSize,
+        @RequestParam(name = "criteria", required = false, defaultValue = "id") String criteria,
+        Model model
+    ) {
+        Page<ProductResponseDto> productPage = productService.findAllProducts(pageNo, pageSize, criteria);
+        
+        model.addAttribute("products", productPage.getContent()); // 목록
+        model.addAttribute("page", productPage); // 페이지 정보 (for UI)
+        model.addAttribute("criteria", criteria);
         return "product-list";
     }
     

@@ -78,5 +78,17 @@
   </tr>
   </tbody>
 </table>
+<div style="text-align:center; margin-top: 20px;">
+  <a th:if="${page.hasPrevious()}"
+     th:href="@{/admin/products(page=${page.number - 1}, size=${page.size}, criteria=${criteria})}"
+     class="button">◀ 이전</a>
+
+  <span th:text="'페이지 ' + ${page.number + 1} + ' / ' + ${page.totalPages}"></span>
+
+  <a th:if="${page.hasNext()}"
+     th:href="@{/admin/products(page=${page.number + 1}, size=${page.size}, criteria=${criteria})}"
+     class="button">다음 ▶</a>
+</div>
+
 </body>
 </html>
