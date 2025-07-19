@@ -102,6 +102,7 @@ public class ProductController {
     }
     
     @PostMapping("/{productId}/options")
+    @ValidHeader(role = Role.ADMIN)
     public ResponseEntity<OptionResponseDto> addOptionsToProduct(
         @PathVariable(name = "productId") Long id,
         @RequestBody @Valid OptionRequestDto optionRequestDto
