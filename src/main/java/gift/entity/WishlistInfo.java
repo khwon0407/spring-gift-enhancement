@@ -23,7 +23,7 @@ public class WishlistInfo {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false, foreignKey = @ForeignKey(name = "fk_wishlist_member"))
@@ -45,7 +45,7 @@ public class WishlistInfo {
     }
     
     public WishlistInfo(Long id, Member member, Product product, Long productCnt) {
-        Id = id;
+        this.id = id;
         this.member = member;
         this.product = product;
         this.productCnt = productCnt;
@@ -68,7 +68,7 @@ public class WishlistInfo {
     }
     
     public Long getId() {
-        return Id;
+        return id;
     }
     
     public void changeProductCnt(Long productCnt) {
