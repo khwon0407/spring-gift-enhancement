@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,8 +32,8 @@ public class Product {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
     
-    @OneToMany(mappedBy = "options", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Option> options;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Option> options = new ArrayList<>();;
     
     @PrePersist
     @PreUpdate
