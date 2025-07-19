@@ -92,22 +92,5 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
-    //option 관련 mapping
-    @GetMapping("/{productId}/options")
-    public ResponseEntity<List<OptionResponseDto>> findProductOptionsById(
-        @PathVariable(name = "productId") Long id
-    ) {
-        List<OptionResponseDto> productOptions = productService.findProductOptionsById(id);
-        return new ResponseEntity<>(productOptions, HttpStatus.OK);
-    }
     
-    @PostMapping("/{productId}/options")
-    @ValidHeader(role = Role.ADMIN)
-    public ResponseEntity<OptionResponseDto> addOptionsToProduct(
-        @PathVariable(name = "productId") Long id,
-        @RequestBody @Valid OptionRequestDto optionRequestDto
-    ) {
-        OptionResponseDto responseDto = productService.addOptionsToProduct(id, optionRequestDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
-    }
 }

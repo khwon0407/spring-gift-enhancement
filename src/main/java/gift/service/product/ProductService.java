@@ -21,8 +21,4 @@ public interface ProductService {
     void deleteProductWithId(Long id);
     
     ProductResponseDto modifyProductInfoWithId(Long id, ModifyProductRequestDto requestDto);
-    
-    List<OptionResponseDto> findProductOptionsById(Long id);
-    
-    OptionResponseDto addOptionsToProduct(Long id, OptionRequestDto optionRequestDto);
 }

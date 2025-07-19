@@ -13,10 +13,10 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "options", uniqueConstraints = {
+@Table(name = "product_options", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"product_id", "name"})
 })
-public class Option {
+public class ProductOption {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +32,11 @@ public class Option {
     @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_option_product"))
     private Product product;
     
-    public Option() {
+    public ProductOption() {
     
     }
     
-    public Option(Long id, String name, Long quantity, Product product) {
+    public ProductOption(Long id, String name, Long quantity, Product product) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;

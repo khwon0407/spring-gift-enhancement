@@ -1,14 +1,12 @@
 package gift.entity;
 
 import gift.exception.badrequest.WrongPriceException;
-import gift.exception.badrequest.WrongProductCntException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -33,7 +31,7 @@ public class Product {
     private String imageUrl;
     
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Option> options = new ArrayList<>();;
+    private List<ProductOption> options = new ArrayList<>();;
     
     @PrePersist
     @PreUpdate
@@ -70,7 +68,7 @@ public class Product {
         return imageUrl;
     }
     
-    public List<Option> getOptions() {
+    public List<ProductOption> getOptions() {
         return options;
     }
     
@@ -80,7 +78,7 @@ public class Product {
         this.imageUrl = imageUrl;
     }
     
-    public void addOptions(Option option) {
+    public void addOptions(ProductOption option) {
         this.options.add(option);
         option.setProduct(this);
     }

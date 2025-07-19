@@ -6,7 +6,6 @@ import gift.dto.api.product.OptionRequestDto;
 import gift.dto.api.product.ProductResponseDto;
 import gift.dto.htmlform.AddProductForm;
 import gift.dto.htmlform.ModifyProductForm;
-import gift.entity.Option;
 import gift.service.product.ProductService;
 import jakarta.validation.Valid;
 import java.util.ArrayList;

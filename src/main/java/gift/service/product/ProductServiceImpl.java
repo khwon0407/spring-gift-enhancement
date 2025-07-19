@@ -5,13 +5,13 @@ import gift.dto.api.product.ModifyProductRequestDto;
 import gift.dto.api.product.OptionRequestDto;
 import gift.dto.api.product.OptionResponseDto;
 import gift.dto.api.product.ProductResponseDto;
-import gift.entity.Option;
+import gift.entity.ProductOption;
 import gift.entity.Product;
 import gift.exception.badrequest.CheckMdOkException;
 import gift.exception.badrequest.FillAllInfoException;
 import gift.exception.badrequest.FillSomeInfoException;
 import gift.exception.notfound.NoProductInfoException;
-import gift.repository.product.OptionRepositoryJpa;
+import gift.repository.productoption.ProductOptionRepositoryJpa;
 import gift.repository.product.ProductRepositoryJpa;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,10 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductServiceImpl implements ProductService {
     
     private final ProductRepositoryJpa productRepositoryJpa;
-    private final OptionRepositoryJpa optionRepositoryJpa;
+    private final ProductOptionRepositoryJpa optionRepositoryJpa;
     
     public ProductServiceImpl(ProductRepositoryJpa productRepositoryJpa,
-        OptionRepositoryJpa optionRepositoryJpa) {
+        ProductOptionRepositoryJpa optionRepositoryJpa) {
         this.productRepositoryJpa = productRepositoryJpa;
         this.optionRepositoryJpa = optionRepositoryJpa;
     }
@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
         );
         
         for (OptionRequestDto optionDto : requestDto.options()) {
-            Option option = new Option(
+            ProductOption option = new ProductOption(
                 null,
                 optionDto.name(),
                 optionDto.quantity(),
@@ -131,32 +131,5 @@ public class ProductServiceImpl implements ProductService {
         );
         
         return new ProductResponseDto(productRepositoryJpa.save(product));
-    }
-    
-    //option 관련
-    @Override
-    public List<OptionResponseDto> findProductOptionsById(Long id) {
-        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
-        return product.getOptions().stream().map(option -> new OptionResponseDto(
-            option.getId(),
-            option.getName(),
-            option.getQuantity()
-        )).collect(Collectors.toList());
-    }
-    
-    @Override
-    public OptionResponseDto addOptionsToProduct(Long id, OptionRequestDto optionRequestDto) {
-        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
-        Option option = new Option(null, optionRequestDto.name(), optionRequestDto.quantity(), product);
-        product.addOptions(option);
-        productRepositoryJpa.save(product);
-        
-        Option savedOption = product.getOptions().get(product.getOptions().size() - 1);
-        
-        return new OptionResponseDto(
-            savedOption.getId(),
-            savedOption.getName(),
-            savedOption.getQuantity()
-        );
     }
 }
