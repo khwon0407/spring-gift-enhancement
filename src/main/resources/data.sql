@@ -11,3 +11,12 @@ insert into members(email, password, role)
 values ('admin@admin.com', 'adminpw', 'ADMIN');
 insert into members(email, password, role)
 values ('user@user.com', 'userpw', 'USER');
+
+insert into options(name, quantity, product_id)
+values ('기본 옵션', 100, 1);
+insert into options(name, quantity, product_id)
+values ('기본 옵션2', 200, 2);
+insert into options(name, quantity, product_id)
+values ('기본 옵션3', 300, 3);
+insert into options(name, quantity, product_id)
+values ('기본 옵션4', 400, 4);
