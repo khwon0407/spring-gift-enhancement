@@ -2,13 +2,17 @@ package gift.service.product;
 
 import gift.dto.api.product.AddProductRequestDto;
 import gift.dto.api.product.ModifyProductRequestDto;
+import gift.dto.api.product.OptionResponseDto;
 import gift.dto.api.product.ProductResponseDto;
 import gift.entity.Product;
 import gift.exception.badrequest.CheckMdOkException;
 import gift.exception.badrequest.FillAllInfoException;
 import gift.exception.badrequest.FillSomeInfoException;
 import gift.exception.notfound.NoProductInfoException;
+import gift.repository.product.OptionRepositoryJpa;
 import gift.repository.product.ProductRepositoryJpa;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductServiceImpl implements ProductService {
     
     private final ProductRepositoryJpa productRepositoryJpa;
+    private final OptionRepositoryJpa optionRepositoryJpa;
     
-    public ProductServiceImpl(ProductRepositoryJpa productRepositoryJpa) {
+    public ProductServiceImpl(ProductRepositoryJpa productRepositoryJpa,
+        OptionRepositoryJpa optionRepositoryJpa) {
         this.productRepositoryJpa = productRepositoryJpa;
+        this.optionRepositoryJpa = optionRepositoryJpa;
     }
     
     //상품 추가 Service
@@ -114,4 +121,14 @@ public class ProductServiceImpl implements ProductService {
         return new ProductResponseDto(productRepositoryJpa.save(product));
     }
     
+    //option 관련
+    @Override
+    public List<OptionResponseDto> findProductOptionsById(Long id) {
+        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
+        return product.getOptions().stream().map(option -> new OptionResponseDto(
+            option.getId(),
+            option.getName(),
+            option.getQuantity()
+        )).collect(Collectors.toList());
+    }
 }

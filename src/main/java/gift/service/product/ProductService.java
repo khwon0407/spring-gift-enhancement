@@ -2,7 +2,9 @@ package gift.service.product;
 
 import gift.dto.api.product.AddProductRequestDto;
 import gift.dto.api.product.ModifyProductRequestDto;
+import gift.dto.api.product.OptionResponseDto;
 import gift.dto.api.product.ProductResponseDto;
+import java.util.List;
 import org.springframework.data.domain.Page;
 
 public interface ProductService {
@@ -18,4 +20,6 @@ public interface ProductService {
     void deleteProductWithId(Long id);
     
     ProductResponseDto modifyProductInfoWithId(Long id, ModifyProductRequestDto requestDto);
+    
+    List<OptionResponseDto> findProductOptionsById(Long id);
 }

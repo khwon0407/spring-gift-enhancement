@@ -69,6 +69,10 @@ public class Product {
         return imageUrl;
     }
     
+    public List<Option> getOptions() {
+        return options;
+    }
+    
     public void changeProductInfo(String name, Long price, String imageUrl) {
         this.name = name;
         this.price = price;

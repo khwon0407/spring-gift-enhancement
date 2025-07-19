@@ -3,6 +3,7 @@ package gift.controller.product;
 import gift.config.annotation.ValidHeader;
 import gift.dto.api.product.AddProductRequestDto;
 import gift.dto.api.product.ModifyProductRequestDto;
+import gift.dto.api.product.OptionResponseDto;
 import gift.dto.api.product.ProductResponseDto;
 import gift.entity.Role;
 import gift.service.product.ProductService;
@@ -88,5 +89,14 @@ public class ProductController {
     ) {
         productService.deleteProductWithId(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    
+    //option 관련 mapping
+    @GetMapping("/{productId}/options")
+    public ResponseEntity<List<OptionResponseDto>> findProductOptionsById(
+        @PathVariable(name = "productId") Long id
+    ) {
+        List<OptionResponseDto> productOptions = productService.findProductOptionsById(id);
+        return new ResponseEntity<>(productOptions, HttpStatus.OK);
     }
 }
