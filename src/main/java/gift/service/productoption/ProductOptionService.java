@@ -9,4 +9,6 @@ public interface ProductOptionService {
     OptionResponseDto addOptionsToProduct(Long id, OptionRequestDto optionRequestDto);
     
     void deleteOptionToProduct(Long productId, Long optionId);
+    
+    void decreaseOptionQuantity(Long optionId, Long quantity);
 }

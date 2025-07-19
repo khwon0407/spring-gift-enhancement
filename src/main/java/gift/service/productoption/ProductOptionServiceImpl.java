@@ -4,6 +4,7 @@ import gift.dto.api.product.OptionRequestDto;
 import gift.dto.api.product.OptionResponseDto;
 import gift.entity.Product;
 import gift.entity.ProductOption;
+import gift.exception.badrequest.LessQuantityException;
 import gift.exception.badrequest.WrongProductOptionException;
 import gift.exception.notfound.NoOptionInfoException;
 import gift.exception.notfound.NoProductInfoException;
@@ -66,4 +67,20 @@ public class ProductOptionServiceImpl implements ProductOptionService {
         
         productOptionRepositoryJpa.deleteById(optionId);
     }
+    
+    @Override
+    @Transactional
+    public void decreaseOptionQuantity(Long optionId, Long quantity) {
+        ProductOption option = productOptionRepositoryJpa.findById(optionId).orElseThrow(NoOptionInfoException::new);
+        
+        Long currentQuantity = option.getQuantity();
+        if (currentQuantity == null || currentQuantity < quantity) {
+            throw new LessQuantityException();
+        }
+        
+        option.decreaseQuantity(quantity);
+        
+        productOptionRepositoryJpa.save(option);
+    }
+    
 }
