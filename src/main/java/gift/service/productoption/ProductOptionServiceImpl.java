@@ -22,8 +22,6 @@ public class ProductOptionServiceImpl implements ProductOptionService {
         this.productOptionRepositoryJpa = productOptionRepositoryJpa;
     }
     
-    
-    //option 관련
     @Override
     public List<OptionResponseDto> findProductOptionsById(Long id) {
         Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
