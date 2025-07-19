@@ -7,9 +7,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -26,6 +29,9 @@ public class Product {
     
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
+    
+    @OneToMany(mappedBy = "options")
+    private List<Option> options;
     
     @PrePersist
     @PreUpdate
@@ -66,5 +72,10 @@ public class Product {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+    
+    public void addOptions(Option option) {
+        this.options.add(option);
+        option.setProduct(this);
     }
 }
