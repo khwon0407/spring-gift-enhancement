@@ -2,8 +2,10 @@ package gift.service.product;
 
 import gift.dto.api.product.AddProductRequestDto;
 import gift.dto.api.product.ModifyProductRequestDto;
+import gift.dto.api.product.OptionRequestDto;
 import gift.dto.api.product.OptionResponseDto;
 import gift.dto.api.product.ProductResponseDto;
+import gift.entity.Option;
 import gift.entity.Product;
 import gift.exception.badrequest.CheckMdOkException;
 import gift.exception.badrequest.FillAllInfoException;
@@ -130,5 +132,21 @@ public class ProductServiceImpl implements ProductService {
             option.getName(),
             option.getQuantity()
         )).collect(Collectors.toList());
+    }
+    
+    @Override
+    public OptionResponseDto addOptionsToProduct(Long id, OptionRequestDto optionRequestDto) {
+        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
+        Option option = new Option(null, optionRequestDto.name(), optionRequestDto.quantity(), product);
+        product.addOptions(option);
+        productRepositoryJpa.save(product);
+        
+        Option savedOption = product.getOptions().get(product.getOptions().size() - 1);
+        
+        return new OptionResponseDto(
+            savedOption.getId(),
+            savedOption.getName(),
+            savedOption.getQuantity()
+        );
     }
 }

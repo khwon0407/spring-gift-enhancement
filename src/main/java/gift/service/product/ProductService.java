@@ -2,6 +2,7 @@ package gift.service.product;
 
 import gift.dto.api.product.AddProductRequestDto;
 import gift.dto.api.product.ModifyProductRequestDto;
+import gift.dto.api.product.OptionRequestDto;
 import gift.dto.api.product.OptionResponseDto;
 import gift.dto.api.product.ProductResponseDto;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface ProductService {
     ProductResponseDto modifyProductInfoWithId(Long id, ModifyProductRequestDto requestDto);
     
     List<OptionResponseDto> findProductOptionsById(Long id);
+    
+    OptionResponseDto addOptionsToProduct(Long id, OptionRequestDto optionRequestDto);
 }
