@@ -7,4 +7,6 @@ import java.util.List;
 public interface ProductOptionService {
     List<OptionResponseDto> findProductOptionsById(Long id);
     OptionResponseDto addOptionsToProduct(Long id, OptionRequestDto optionRequestDto);
+    
+    void deleteOptionToProduct(Long productId, Long optionId);
 }

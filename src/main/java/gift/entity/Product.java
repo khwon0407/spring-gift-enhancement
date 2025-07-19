@@ -82,4 +82,9 @@ public class Product {
         this.options.add(option);
         option.setProduct(this);
     }
+    
+    public void removeOptions(ProductOption option) {
+        this.options.remove(option);
+        option.setProduct(null);
+    }
 }
