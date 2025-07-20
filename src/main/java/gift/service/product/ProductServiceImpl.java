@@ -135,11 +135,17 @@ public class ProductServiceImpl implements ProductService {
         
         Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
         
-        product.changeProductInfo(
-            requestDto.name() != null ? requestDto.name() : product.getName(),
-            requestDto.price() != null ? requestDto.price() : product.getPrice(),
-            requestDto.imageUrl() != null ? requestDto.imageUrl() : product.getImageUrl()
-        );
+        if(requestDto.name() != null) {
+            product.changeName(requestDto.name());
+        }
+        
+        if(requestDto.price() != null) {
+            product.changePrice(requestDto.price());
+        }
+        
+        if(requestDto.imageUrl() != null) {
+            product.changeImageUrl(requestDto.imageUrl());
+        }
         
         return new ProductResponseDto(productRepositoryJpa.save(product));
     }
