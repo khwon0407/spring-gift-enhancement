@@ -28,12 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductServiceImpl implements ProductService {
     
     private final ProductRepositoryJpa productRepositoryJpa;
-    private final ProductOptionRepositoryJpa optionRepositoryJpa;
     
-    public ProductServiceImpl(ProductRepositoryJpa productRepositoryJpa,
-        ProductOptionRepositoryJpa optionRepositoryJpa) {
+    public ProductServiceImpl(ProductRepositoryJpa productRepositoryJpa) {
         this.productRepositoryJpa = productRepositoryJpa;
-        this.optionRepositoryJpa = optionRepositoryJpa;
     }
     
     //상품 추가 Service
