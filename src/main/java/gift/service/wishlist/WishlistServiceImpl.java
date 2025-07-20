@@ -6,6 +6,7 @@ import gift.entity.Member;
 import gift.entity.Product;
 import gift.entity.WishlistInfo;
 import gift.exception.badrequest.WrongCriteriaException;
+import gift.exception.badrequest.WrongOrderException;
 import gift.exception.notfound.NoProductInfoException;
 import gift.exception.notfound.NotInWishlistException;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
@@ -49,14 +50,21 @@ public class WishlistServiceImpl implements WishlistService {
     }
     
     @Override
-    public List<WishlistResponseDto> findMyWishlist(Member user, int pageNo, int pageSize, String criteria) {
+    public List<WishlistResponseDto> findMyWishlist(Member user, int pageNo, int pageSize, String criteria, String order) {
         List<String> validCriteria = List.of("id", "productId", "productCnt");
         
         if (!validCriteria.contains(criteria)) {
             throw new WrongCriteriaException();
         }
         
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Direction.ASC, criteria));
+        if(!order.equals("ASC") && !order.equals("DESC")) {
+            throw new WrongOrderException();
+        }
+        
+        var orderValue = order.equals("ASC") ? Direction.ASC : Direction.DESC;
+        
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(orderValue, criteria));
+        
         Page<WishlistResponseDto> page = wishlistRepositoryJpa.findAllByMemberId(user.getId(), pageable)
             .map(wishlist -> new WishlistResponseDto(
                 wishlist.getProduct().getId(),

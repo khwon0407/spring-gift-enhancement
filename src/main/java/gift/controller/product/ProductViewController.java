@@ -40,9 +40,10 @@ public class ProductViewController {
         @RequestParam(name = "page", required = false, defaultValue = "0") int pageNo,
         @RequestParam(name = "size", required = false, defaultValue = "2") int pageSize,
         @RequestParam(name = "criteria", required = false, defaultValue = "id") String criteria,
+        @RequestParam(name = "order", required = false, defaultValue = "ASC") String order,
         Model model
     ) {
-        Page<ProductResponseDto> productPage = productService.findAllProducts(pageNo, pageSize, criteria);
+        Page<ProductResponseDto> productPage = productService.findAllProducts(pageNo, pageSize, criteria, order);
         
         model.addAttribute("products", productPage.getContent()); // 목록
         model.addAttribute("page", productPage); // 페이지 정보 (for UI)

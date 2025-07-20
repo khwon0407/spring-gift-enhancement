@@ -12,7 +12,7 @@ public interface ProductService {
     
     ProductResponseDto addProduct(AddProductRequestDto requestDto);
     
-    Page<ProductResponseDto> findAllProducts(int pageNo, int pageSize, String criteria);
+    Page<ProductResponseDto> findAllProducts(int pageNo, int pageSize, String criteria, String order);
     
     ProductResponseDto findProductWithId(Long id);
     

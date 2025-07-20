@@ -46,10 +46,11 @@ public class ProductController {
     public ResponseEntity<List<ProductResponseDto>> findAllProducts(
         @RequestParam(required = false, value = "page", defaultValue = "0") int pageNo,
         @RequestParam(required = false, value = "size", defaultValue = "10") int pageSize,
-        @RequestParam(required = false, value = "criteria", defaultValue = "id") String criteria
+        @RequestParam(required = false, value = "criteria", defaultValue = "id") String criteria,
+        @RequestParam(required = false, value = "order", defaultValue = "ASC") String order
     ) {
         List<ProductResponseDto> responseDtoList = productService
-            .findAllProducts(pageNo, pageSize, criteria)
+            .findAllProducts(pageNo, pageSize, criteria, order)
             .getContent();
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
