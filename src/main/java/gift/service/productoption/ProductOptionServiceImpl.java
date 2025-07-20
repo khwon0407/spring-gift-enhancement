@@ -70,8 +70,30 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     
     @Override
     @Transactional
-    public void decreaseOptionQuantity(Long optionId, Long quantity) {
+    public OptionResponseDto modifyOptionsToProduct(Long productId, Long optionId,
+        OptionRequestDto optionRequestDto) {
+        Product product = productRepositoryJpa.findById(productId).orElseThrow(NoProductInfoException::new);
         ProductOption option = productOptionRepositoryJpa.findById(optionId).orElseThrow(NoOptionInfoException::new);
+        
+        if(!product.getOptions().contains(option) || !option.getProduct().equals(product)) {
+            throw new WrongProductOptionException();
+        }
+        
+        option.changeInfo(optionRequestDto.name(), optionRequestDto.quantity());
+        ProductOption saved = productOptionRepositoryJpa.save(option);
+        
+        return new OptionResponseDto(
+            saved.getId(),
+            saved.getName(),
+            saved.getQuantity()
+        );
+    }
+    
+    @Override
+    @Transactional
+    public void decreaseOptionQuantity(Long optionId, Long quantity) {
+        ProductOption option = productOptionRepositoryJpa.findById(optionId)
+            .orElseThrow(NoOptionInfoException::new);
         
         Long currentQuantity = option.getQuantity();
         if (currentQuantity == null || currentQuantity < quantity) {
@@ -82,5 +104,4 @@ public class ProductOptionServiceImpl implements ProductOptionService {
         
         productOptionRepositoryJpa.save(option);
     }
-    
 }

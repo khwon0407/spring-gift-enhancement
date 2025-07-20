@@ -66,4 +66,9 @@ public class ProductOption {
     public void decreaseQuantity(Long quantity) {
         this.quantity -= quantity;
     }
+    
+    public void changeInfo(String name, Long quantity) {
+        this.name = name;
+        this.quantity = quantity;
+    }
 }

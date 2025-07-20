@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,5 +53,16 @@ public class ProductOptionController {
     ) {
         productOptionService.deleteOptionToProduct(productId, optionId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    
+    @PutMapping("/{optionId}")
+    @ValidHeader(role = Role.ADMIN)
+    public ResponseEntity<OptionResponseDto> modifyOptionsToProduct(
+        @PathVariable(name = "productId") Long productId,
+        @PathVariable(name = "optionId") Long optionId,
+        @RequestBody @Valid OptionRequestDto optionRequestDto
+    ) {
+        OptionResponseDto responseDto = productOptionService.modifyOptionsToProduct(productId, optionId, optionRequestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }
