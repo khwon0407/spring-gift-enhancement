@@ -10,6 +10,7 @@ import gift.entity.Product;
 import gift.exception.badrequest.CheckMdOkException;
 import gift.exception.badrequest.FillAllInfoException;
 import gift.exception.badrequest.FillSomeInfoException;
+import gift.exception.badrequest.WrongCriteriaException;
 import gift.exception.notfound.NoProductInfoException;
 import gift.repository.productoption.ProductOptionRepositoryJpa;
 import gift.repository.product.ProductRepositoryJpa;
@@ -69,6 +70,10 @@ public class ProductServiceImpl implements ProductService {
     //상품 전체 조회
     @Override
     public Page<ProductResponseDto> findAllProducts(int pageNo, int pageSize, String criteria) {
+        List<String> validCriteria = List.of("id", "price", "name");
+        if (!validCriteria.contains(criteria)) {
+            throw new WrongCriteriaException();
+        }
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Direction.ASC, criteria));
         return productRepositoryJpa.findAll(pageable).map(ProductResponseDto::new);
     }
