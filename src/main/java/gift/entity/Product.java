@@ -1,5 +1,6 @@
 package gift.entity;
 
+import gift.exception.badrequest.NoRemoveOptionException;
 import gift.exception.badrequest.WrongPriceException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -96,6 +97,9 @@ public class Product {
     }
     
     public void removeOptions(ProductOption option) {
+        if(this.options.size() <= 1) {
+            throw new NoRemoveOptionException();
+        }
         this.options.remove(option);
         option.setProduct(null);
     }
