@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ProductOptionRepositoryJpaTest {
     @Autowired
-    ProductOptionRepositoryJpa productOptionRepositoryJpa;
+    ProductOptionRepository productOptionRepositoryJpa;
     
     @Test
     void 저장() {

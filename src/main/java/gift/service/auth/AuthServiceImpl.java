@@ -5,16 +5,16 @@ import gift.dto.api.member.LoginRequestDto;
 import gift.dto.api.member.MemberResponseDto;
 import gift.entity.Member;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
-import gift.repository.member.MemberRepositoryJpa;
+import gift.repository.member.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
     
-    private final MemberRepositoryJpa memberRepositoryJpa;
+    private final MemberRepository memberRepositoryJpa;
     private final JwtProvider jwtProvider;
     
-    public AuthServiceImpl(MemberRepositoryJpa memberRepositoryJpa, JwtProvider jwtProvider) {
+    public AuthServiceImpl(MemberRepository memberRepositoryJpa, JwtProvider jwtProvider) {
         this.memberRepositoryJpa = memberRepositoryJpa;
         this.jwtProvider = jwtProvider;
     }

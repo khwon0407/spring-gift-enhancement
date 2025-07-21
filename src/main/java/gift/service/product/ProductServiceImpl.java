@@ -3,7 +3,6 @@ package gift.service.product;
 import gift.dto.api.product.AddProductRequestDto;
 import gift.dto.api.product.ModifyProductRequestDto;
 import gift.dto.api.product.OptionRequestDto;
-import gift.dto.api.product.OptionResponseDto;
 import gift.dto.api.product.ProductResponseDto;
 import gift.entity.ProductOption;
 import gift.entity.Product;
@@ -13,10 +12,8 @@ import gift.exception.badrequest.FillSomeInfoException;
 import gift.exception.badrequest.WrongCriteriaException;
 import gift.exception.badrequest.WrongOrderException;
 import gift.exception.notfound.NoProductInfoException;
-import gift.repository.productoption.ProductOptionRepositoryJpa;
-import gift.repository.product.ProductRepositoryJpa;
+import gift.repository.product.ProductRepository;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProductServiceImpl implements ProductService {
     
-    private final ProductRepositoryJpa productRepositoryJpa;
+    private final ProductRepository productRepositoryJpa;
     
-    public ProductServiceImpl(ProductRepositoryJpa productRepositoryJpa) {
+    public ProductServiceImpl(ProductRepository productRepositoryJpa) {
         this.productRepositoryJpa = productRepositoryJpa;
     }
     

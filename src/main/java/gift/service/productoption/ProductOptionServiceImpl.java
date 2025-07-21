@@ -8,8 +8,8 @@ import gift.exception.badrequest.LessQuantityException;
 import gift.exception.badrequest.WrongProductOptionException;
 import gift.exception.notfound.NoOptionInfoException;
 import gift.exception.notfound.NoProductInfoException;
-import gift.repository.product.ProductRepositoryJpa;
-import gift.repository.productoption.ProductOptionRepositoryJpa;
+import gift.repository.product.ProductRepository;
+import gift.repository.productoption.ProductOptionRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductOptionServiceImpl implements ProductOptionService {
-    private final ProductRepositoryJpa productRepositoryJpa;
-    private final ProductOptionRepositoryJpa productOptionRepositoryJpa;
+    private final ProductRepository productRepositoryJpa;
+    private final ProductOptionRepository productOptionRepositoryJpa;
     
-    public ProductOptionServiceImpl(ProductRepositoryJpa productRepositoryJpa,
-        ProductOptionRepositoryJpa productOptionRepositoryJpa) {
+    public ProductOptionServiceImpl(ProductRepository productRepositoryJpa,
+        ProductOptionRepository productOptionRepositoryJpa) {
         this.productRepositoryJpa = productRepositoryJpa;
         this.productOptionRepositoryJpa = productOptionRepositoryJpa;
     }

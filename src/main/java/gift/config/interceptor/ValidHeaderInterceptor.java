@@ -7,7 +7,7 @@ import gift.exception.common.HttpException;
 import gift.exception.forbidden.WrongPermissionException;
 import gift.exception.unauthorized.WrongHeaderException;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
-import gift.repository.member.MemberRepositoryJpa;
+import gift.repository.member.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -17,9 +17,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class ValidHeaderInterceptor implements HandlerInterceptor {
     
-    private final MemberRepositoryJpa memberRepositoryJpa;
+    private final MemberRepository memberRepositoryJpa;
     
-    public ValidHeaderInterceptor(MemberRepositoryJpa memberRepositoryJpa) {
+    public ValidHeaderInterceptor(MemberRepository memberRepositoryJpa) {
         this.memberRepositoryJpa = memberRepositoryJpa;
     }
     

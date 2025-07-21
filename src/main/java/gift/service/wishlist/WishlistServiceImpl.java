@@ -9,11 +9,8 @@ import gift.exception.badrequest.WrongCriteriaException;
 import gift.exception.badrequest.WrongOrderException;
 import gift.exception.notfound.NoProductInfoException;
 import gift.exception.notfound.NotInWishlistException;
-import gift.exception.unauthorized.WrongIdOrPasswordException;
-import gift.repository.member.MemberRepositoryJpa;
-import gift.repository.product.ProductRepositoryJpa;
-import gift.repository.wishlist.WishlistRepositoryJpa;
-import java.util.ArrayList;
+import gift.repository.product.ProductRepository;
+import gift.repository.wishlist.WishlistRepository;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,11 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class WishlistServiceImpl implements WishlistService {
     
-    private final ProductRepositoryJpa productRepositoryJpa;
-    private final WishlistRepositoryJpa wishlistRepositoryJpa;
+    private final ProductRepository productRepositoryJpa;
+    private final WishlistRepository wishlistRepositoryJpa;
     
-    public WishlistServiceImpl(ProductRepositoryJpa productRepositoryJpa,
-        WishlistRepositoryJpa wishlistRepositoryJpa) {
+    public WishlistServiceImpl(ProductRepository productRepositoryJpa,
+        WishlistRepository wishlistRepositoryJpa) {
         this.productRepositoryJpa = productRepositoryJpa;
         this.wishlistRepositoryJpa = wishlistRepositoryJpa;
     }

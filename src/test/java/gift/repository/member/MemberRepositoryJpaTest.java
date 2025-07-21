@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class MemberRepositoryJpaTest {
     @Autowired
-    private MemberRepositoryJpa memberRepositoryJpa;
+    private MemberRepository memberRepositoryJpa;
     
     @Test
     void 저장() {

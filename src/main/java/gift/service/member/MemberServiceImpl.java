@@ -6,15 +6,15 @@ import gift.entity.Member;
 import gift.entity.Role;
 import gift.exception.conflict.AlreadyRegisteredException;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
-import gift.repository.member.MemberRepositoryJpa;
+import gift.repository.member.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-    private final MemberRepositoryJpa memberRepositoryJpa;
+    private final MemberRepository memberRepositoryJpa;
     
-    public MemberServiceImpl(MemberRepositoryJpa memberRepositoryJpa) {
+    public MemberServiceImpl(MemberRepository memberRepositoryJpa) {
         this.memberRepositoryJpa = memberRepositoryJpa;
     }
     

@@ -20,7 +20,7 @@ import org.springframework.data.domain.Sort.Direction;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class WishlistRepositoryJpaTest {
     @Autowired
-    private WishlistRepositoryJpa wishlistRepositoryJpa;
+    private WishlistRepository wishlistRepositoryJpa;
     
     @Test
     void 저장() {
