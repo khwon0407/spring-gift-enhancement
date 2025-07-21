@@ -51,7 +51,7 @@ public class WishlistInfo {
         this.productCnt = productCnt;
     }
     
-    public WishlistInfo() {
+    protected WishlistInfo() {
     
     }
     

@@ -32,7 +32,7 @@ public class ProductOption {
     @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_option_product"))
     private Product product;
     
-    public ProductOption() {
+    protected ProductOption() {
     
     }
     

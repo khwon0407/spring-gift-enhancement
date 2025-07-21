@@ -49,7 +49,7 @@ public class Product {
         this.imageUrl = imageUrl;
     }
     
-    public Product() {
+    protected Product() {
     
     }
     
