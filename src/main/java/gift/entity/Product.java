@@ -107,4 +107,8 @@ public class Product {
     public ProductOption lastOption() {
         return this.options.get(this.options.size() - 1);
     }
+    
+    public boolean hasOption(ProductOption option) {
+        return this.options.contains(option);
+    }
 }

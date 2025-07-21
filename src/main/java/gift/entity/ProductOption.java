@@ -71,4 +71,8 @@ public class ProductOption {
         this.name = name;
         this.quantity = quantity;
     }
+    
+    public boolean isNotForProduct(Product product) {
+        return this.product.equals(product);
+    }
 }
