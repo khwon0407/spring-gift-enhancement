@@ -25,10 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProductServiceImpl implements ProductService {
     
-    private final ProductRepository productRepositoryJpa;
+    private final ProductRepository productRepository;
     
-    public ProductServiceImpl(ProductRepository productRepositoryJpa) {
-        this.productRepositoryJpa = productRepositoryJpa;
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
     
     //상품 추가 Service
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
             product.addOptions(option); // addOptions에서 product 세팅도 해줄 거니까
         }
         
-        Product saved = productRepositoryJpa.save(product);
+        Product saved = productRepository.save(product);
         
         return new ProductResponseDto(saved);
     }
@@ -78,13 +78,13 @@ public class ProductServiceImpl implements ProductService {
         
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(orderValue, criteria));
         
-        return productRepositoryJpa.findAll(pageable).map(ProductResponseDto::new);
+        return productRepository.findAll(pageable).map(ProductResponseDto::new);
     }
     
     //상품 단건 조회
     @Override
     public ProductResponseDto findProductWithId(Long id) {
-        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
+        Product product = productRepository.findById(id).orElseThrow(NoProductInfoException::new);
         return new ProductResponseDto(product);
     }
     
@@ -102,18 +102,18 @@ public class ProductServiceImpl implements ProductService {
             throw new CheckMdOkException();
         }
         
-        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
+        Product product = productRepository.findById(id).orElseThrow(NoProductInfoException::new);
         
         product.changeProductInfo(requestDto.name(), requestDto.price(), requestDto.imageUrl());
         
-        return new ProductResponseDto(productRepositoryJpa.save(product));
+        return new ProductResponseDto(productRepository.save(product));
     }
     
     //상품 단건 삭제
     @Override
     @Transactional
     public void deleteProductWithId(Long id) {
-        productRepositoryJpa.deleteById(id);
+        productRepository.deleteById(id);
     }
     
     //상품 수정 (일부 내용이 바뀜)
@@ -130,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
             throw new CheckMdOkException();
         }
         
-        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
+        Product product = productRepository.findById(id).orElseThrow(NoProductInfoException::new);
         
         if(requestDto.name() != null) {
             product.changeName(requestDto.name());
@@ -144,6 +144,6 @@ public class ProductServiceImpl implements ProductService {
             product.changeImageUrl(requestDto.imageUrl());
         }
         
-        return new ProductResponseDto(productRepositoryJpa.save(product));
+        return new ProductResponseDto(productRepository.save(product));
     }
 }

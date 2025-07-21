@@ -23,23 +23,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class WishlistServiceImpl implements WishlistService {
     
-    private final ProductRepository productRepositoryJpa;
-    private final WishlistRepository wishlistRepositoryJpa;
+    private final ProductRepository productRepository;
+    private final WishlistRepository wishlistRepository;
     
-    public WishlistServiceImpl(ProductRepository productRepositoryJpa,
-        WishlistRepository wishlistRepositoryJpa) {
-        this.productRepositoryJpa = productRepositoryJpa;
-        this.wishlistRepositoryJpa = wishlistRepositoryJpa;
+    public WishlistServiceImpl(ProductRepository productRepository,
+        WishlistRepository wishlistRepository) {
+        this.productRepository = productRepository;
+        this.wishlistRepository = wishlistRepository;
     }
     
     @Override
     @Transactional
     public WishlistResponseDto addToMyWishlist(Member user, WishlistRequestDto requestDto) {
         
-        Product product = productRepositoryJpa.findById(requestDto.productId()).orElseThrow(
+        Product product = productRepository.findById(requestDto.productId()).orElseThrow(
             NoProductInfoException::new);
         
-        WishlistInfo saved = wishlistRepositoryJpa.save(
+        WishlistInfo saved = wishlistRepository.save(
             new WishlistInfo(null, user, product, requestDto.productCnt())
         );
         
@@ -62,7 +62,7 @@ public class WishlistServiceImpl implements WishlistService {
         
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(orderValue, criteria));
         
-        Page<WishlistResponseDto> page = wishlistRepositoryJpa.findAllByMemberId(user.getId(), pageable)
+        Page<WishlistResponseDto> page = wishlistRepository.findAllByMemberId(user.getId(), pageable)
             .map(wishlist -> new WishlistResponseDto(
                 wishlist.getProduct().getId(),
                 wishlist.getProduct().getName(),
@@ -74,22 +74,22 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     @Transactional
     public void deleteFromMyWishlist(Member user, Long productId) {
-        Product product = productRepositoryJpa.findById(productId).orElseThrow(NoProductInfoException::new);
+        Product product = productRepository.findById(productId).orElseThrow(NoProductInfoException::new);
         
-        WishlistInfo wishlistInfo = wishlistRepositoryJpa.findByMemberIdAndProductId(user.getId(), product.getId()).orElseThrow(
+        WishlistInfo wishlistInfo = wishlistRepository.findByMemberIdAndProductId(user.getId(), product.getId()).orElseThrow(
             NotInWishlistException::new);
         
-        wishlistRepositoryJpa.deleteByMemberIdAndProductId(wishlistInfo.getMember().getId(), wishlistInfo.getProduct().getId());
+        wishlistRepository.deleteByMemberIdAndProductId(wishlistInfo.getMember().getId(), wishlistInfo.getProduct().getId());
     }
     
     @Override
     @Transactional
     public WishlistResponseDto modifyProductCntFromMyWishlist(Member user,
         WishlistRequestDto requestDto) {
-        Product product = productRepositoryJpa.findById(requestDto.productId())
+        Product product = productRepository.findById(requestDto.productId())
             .orElseThrow(NoProductInfoException::new);
         
-        WishlistInfo wishlistInfo = wishlistRepositoryJpa.findByMemberIdAndProductId(user.getId(), product.getId())
+        WishlistInfo wishlistInfo = wishlistRepository.findByMemberIdAndProductId(user.getId(), product.getId())
             .orElseThrow(NotInWishlistException::new);
         
         if(requestDto.productCnt() == 0) {
@@ -99,6 +99,6 @@ public class WishlistServiceImpl implements WishlistService {
         
         wishlistInfo.changeProductCnt(requestDto.productCnt());
         
-        return new WishlistResponseDto(wishlistRepositoryJpa.save(wishlistInfo));
+        return new WishlistResponseDto(wishlistRepository.save(wishlistInfo));
     }
 }

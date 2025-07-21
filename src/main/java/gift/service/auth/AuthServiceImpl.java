@@ -11,17 +11,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService {
     
-    private final MemberRepository memberRepositoryJpa;
+    private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     
-    public AuthServiceImpl(MemberRepository memberRepositoryJpa, JwtProvider jwtProvider) {
-        this.memberRepositoryJpa = memberRepositoryJpa;
+    public AuthServiceImpl(MemberRepository memberRepository, JwtProvider jwtProvider) {
+        this.memberRepository = memberRepository;
         this.jwtProvider = jwtProvider;
     }
     
     @Override
     public MemberResponseDto login(LoginRequestDto requestDto) {
-        Member member = memberRepositoryJpa.findByEmail(requestDto.email())
+        Member member = memberRepository.findByEmail(requestDto.email())
             .orElseThrow(WrongIdOrPasswordException::new);
         
         if(!member.getPassword().equals(requestDto.password())) {

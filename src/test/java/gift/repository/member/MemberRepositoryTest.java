@@ -12,15 +12,15 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class MemberRepositoryJpaTest {
+class MemberRepositoryTest {
     @Autowired
-    private MemberRepository memberRepositoryJpa;
+    private MemberRepository memberRepository;
     
     @Test
     void 저장() {
         Member member = new Member(null, "email@email.com", "pwpw", Role.USER);
         
-        var actual = memberRepositoryJpa.save(member);
+        var actual = memberRepository.save(member);
         
         assertAll(
             () -> assertThat(actual.getId()).isNotNull(),
@@ -31,9 +31,9 @@ class MemberRepositoryJpaTest {
     @Test
     void 검색() {
         Member member = new Member(null, "email@email.com", "pwpw", Role.USER);
-        memberRepositoryJpa.save(member);
+        memberRepository.save(member);
         
-        var actual = memberRepositoryJpa.findByEmail(member.getEmail()).get().getEmail();
+        var actual = memberRepository.findByEmail(member.getEmail()).get().getEmail();
         
         assertThat(actual).isEqualTo(member.getEmail());
     }

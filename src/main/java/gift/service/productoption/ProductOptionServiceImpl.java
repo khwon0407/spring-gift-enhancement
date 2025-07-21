@@ -17,18 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductOptionServiceImpl implements ProductOptionService {
-    private final ProductRepository productRepositoryJpa;
-    private final ProductOptionRepository productOptionRepositoryJpa;
+    private final ProductRepository productRepository;
+    private final ProductOptionRepository productOptionRepository;
     
-    public ProductOptionServiceImpl(ProductRepository productRepositoryJpa,
-        ProductOptionRepository productOptionRepositoryJpa) {
-        this.productRepositoryJpa = productRepositoryJpa;
-        this.productOptionRepositoryJpa = productOptionRepositoryJpa;
+    public ProductOptionServiceImpl(ProductRepository productRepository,
+        ProductOptionRepository productOptionRepository) {
+        this.productRepository = productRepository;
+        this.productOptionRepository = productOptionRepository;
     }
     
     @Override
     public List<OptionResponseDto> findProductOptionsById(Long id) {
-        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
+        Product product = productRepository.findById(id).orElseThrow(NoProductInfoException::new);
         return product.getOptions().stream().map(option -> new OptionResponseDto(
             option.getId(),
             option.getName(),
@@ -39,10 +39,10 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     @Override
     @Transactional
     public OptionResponseDto addOptionsToProduct(Long id, OptionRequestDto optionRequestDto) {
-        Product product = productRepositoryJpa.findById(id).orElseThrow(NoProductInfoException::new);
+        Product product = productRepository.findById(id).orElseThrow(NoProductInfoException::new);
         ProductOption option = new ProductOption(null, optionRequestDto.name(), optionRequestDto.quantity(), product);
         product.addOptions(option);
-        productRepositoryJpa.save(product);
+        productRepository.save(product);
         
         ProductOption savedOption = product.getOptions().get(product.getOptions().size() - 1);
         
@@ -56,8 +56,8 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     @Override
     @Transactional
     public void deleteOptionToProduct(Long productId, Long optionId) {
-        Product product = productRepositoryJpa.findById(productId).orElseThrow(NoProductInfoException::new);
-        ProductOption option = productOptionRepositoryJpa.findById(optionId).orElseThrow(NoOptionInfoException::new);
+        Product product = productRepository.findById(productId).orElseThrow(NoProductInfoException::new);
+        ProductOption option = productOptionRepository.findById(optionId).orElseThrow(NoOptionInfoException::new);
         
         if(!product.getOptions().contains(option) || !option.getProduct().equals(product)) {
             throw new WrongProductOptionException();
@@ -65,22 +65,22 @@ public class ProductOptionServiceImpl implements ProductOptionService {
         
         product.removeOptions(option);
         
-        productOptionRepositoryJpa.deleteById(optionId);
+        productOptionRepository.deleteById(optionId);
     }
     
     @Override
     @Transactional
     public OptionResponseDto modifyOptionsToProduct(Long productId, Long optionId,
         OptionRequestDto optionRequestDto) {
-        Product product = productRepositoryJpa.findById(productId).orElseThrow(NoProductInfoException::new);
-        ProductOption option = productOptionRepositoryJpa.findById(optionId).orElseThrow(NoOptionInfoException::new);
+        Product product = productRepository.findById(productId).orElseThrow(NoProductInfoException::new);
+        ProductOption option = productOptionRepository.findById(optionId).orElseThrow(NoOptionInfoException::new);
         
         if(!product.getOptions().contains(option) || !option.getProduct().equals(product)) {
             throw new WrongProductOptionException();
         }
         
         option.changeInfo(optionRequestDto.name(), optionRequestDto.quantity());
-        ProductOption saved = productOptionRepositoryJpa.save(option);
+        ProductOption saved = productOptionRepository.save(option);
         
         return new OptionResponseDto(
             saved.getId(),
@@ -92,7 +92,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     @Override
     @Transactional
     public void decreaseOptionQuantity(Long optionId, Long quantity) {
-        ProductOption option = productOptionRepositoryJpa.findById(optionId)
+        ProductOption option = productOptionRepository.findById(optionId)
             .orElseThrow(NoOptionInfoException::new);
         
         Long currentQuantity = option.getQuantity();
@@ -102,6 +102,6 @@ public class ProductOptionServiceImpl implements ProductOptionService {
         
         option.decreaseQuantity(quantity);
         
-        productOptionRepositoryJpa.save(option);
+        productOptionRepository.save(option);
     }
 }

@@ -12,29 +12,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-    private final MemberRepository memberRepositoryJpa;
+    private final MemberRepository memberRepository;
     
-    public MemberServiceImpl(MemberRepository memberRepositoryJpa) {
-        this.memberRepositoryJpa = memberRepositoryJpa;
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
     
     @Override
     @Transactional
     public LoginRequestDto registerMember(MemberRequestDto requestDto) {
-        if (memberRepositoryJpa.existsByEmail(requestDto.email())) {
+        if (memberRepository.existsByEmail(requestDto.email())) {
             throw new AlreadyRegisteredException();
         }
         
         Member newMember = new Member(null, requestDto.email(), requestDto.password(), Role.USER);
         
-        Member registeredMember = memberRepositoryJpa.save(newMember);
+        Member registeredMember = memberRepository.save(newMember);
         
         return new LoginRequestDto(registeredMember);
     }
     
     @Override
     public LoginRequestDto findMemberToLogin(MemberRequestDto requestDto) {
-        Member member = memberRepositoryJpa.findByEmail(requestDto.email()).orElseThrow(
+        Member member = memberRepository.findByEmail(requestDto.email()).orElseThrow(
             WrongIdOrPasswordException::new);
         return new LoginRequestDto(member);
     }

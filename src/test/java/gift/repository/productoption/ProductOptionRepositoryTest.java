@@ -12,16 +12,16 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ProductOptionRepositoryJpaTest {
+class ProductOptionRepositoryTest {
     @Autowired
-    ProductOptionRepository productOptionRepositoryJpa;
+    ProductOptionRepository productOptionRepository;
     
     @Test
     void 저장() {
         Product product = new Product(1L, "아메리카노", 4500L, "http://image.url.americano");
         ProductOption productOption = new ProductOption(null, "이름", 3000L, product);
         
-        var actual = productOptionRepositoryJpa.save(productOption);
+        var actual = productOptionRepository.save(productOption);
         
         assertAll(
             () -> assertThat(actual.getId()).isNotNull(),
@@ -34,9 +34,9 @@ class ProductOptionRepositoryJpaTest {
         Product product = new Product(1L, "아메리카노", 4500L, "http://image.url.americano");
         ProductOption productOption = new ProductOption(null, "이름", 3000L, product);
         
-        var temp = productOptionRepositoryJpa.save(productOption);
+        var temp = productOptionRepository.save(productOption);
         
-        var actual = productOptionRepositoryJpa.findById(temp.getId()).get().getName();
+        var actual = productOptionRepository.findById(temp.getId()).get().getName();
         
         assertThat(actual).isEqualTo(productOption.getName());
     }
