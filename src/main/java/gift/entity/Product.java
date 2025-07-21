@@ -32,7 +32,7 @@ public class Product {
     private String imageUrl;
     
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductOption> options = new ArrayList<>();;
+    private List<ProductOption> options = new ArrayList<>();
     
     @PrePersist
     @PreUpdate
