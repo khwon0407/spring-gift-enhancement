@@ -59,7 +59,7 @@ public class ProductOption {
         return product;
     }
     
-    public void setProduct(Product product) {
+    public void belongToProduct(Product product) {
         this.product = product;
     }
     

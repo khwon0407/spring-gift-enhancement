@@ -93,7 +93,7 @@ public class Product {
     
     public void addOptions(ProductOption option) {
         this.options.add(option);
-        option.setProduct(this);
+        option.belongToProduct(this);
     }
     
     public void removeOptions(ProductOption option) {
@@ -101,6 +101,6 @@ public class Product {
             throw new NoRemoveOptionException();
         }
         this.options.remove(option);
-        option.setProduct(null);
+        option.belongToProduct(null);
     }
 }
