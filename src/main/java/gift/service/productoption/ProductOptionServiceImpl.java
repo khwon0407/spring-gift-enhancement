@@ -44,7 +44,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
         product.addOptions(option);
         productRepository.save(product);
         
-        ProductOption savedOption = product.getOptions().get(product.getOptions().size() - 1);
+        ProductOption savedOption = product.lastOption();
         
         return new OptionResponseDto(
             savedOption.getId(),

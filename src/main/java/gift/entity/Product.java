@@ -103,4 +103,8 @@ public class Product {
         this.options.remove(option);
         option.belongToProduct(null);
     }
+    
+    public ProductOption lastOption() {
+        return this.options.get(this.options.size() - 1);
+    }
 }
