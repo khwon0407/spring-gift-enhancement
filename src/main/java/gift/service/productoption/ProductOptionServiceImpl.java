@@ -41,7 +41,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
     public OptionResponseDto addOptionsToProduct(Long id, OptionRequestDto optionRequestDto) {
         Product product = productRepository.findById(id).orElseThrow(NoProductInfoException::new);
         ProductOption option = new ProductOption(null, optionRequestDto.name(), optionRequestDto.quantity(), product);
-        product.addOptions(option);
+        product.addOption(option);
         productRepository.save(product);
         
         ProductOption savedOption = product.lastOption();
@@ -63,7 +63,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
             throw new WrongProductOptionException();
         }
         
-        product.removeOptions(option);
+        product.removeOption(option);
         
         productOptionRepository.deleteById(optionId);
     }

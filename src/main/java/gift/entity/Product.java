@@ -91,12 +91,12 @@ public class Product {
         this.imageUrl = imageUrl;
     }
     
-    public void addOptions(ProductOption option) {
+    public void addOption(ProductOption option) {
         this.options.add(option);
         option.belongToProduct(this);
     }
     
-    public void removeOptions(ProductOption option) {
+    public void removeOption(ProductOption option) {
         if(this.options.size() <= 1) {
             throw new NoRemoveOptionException();
         }

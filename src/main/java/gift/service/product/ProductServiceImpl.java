@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
                 optionDto.quantity(),
                 product // 아직 저장 전이지만 연관관계 설정 가능
             );
-            product.addOptions(option); // addOptions에서 product 세팅도 해줄 거니까
+            product.addOption(option); // addOptions에서 product 세팅도 해줄 거니까
         }
         
         Product saved = productRepository.save(product);
