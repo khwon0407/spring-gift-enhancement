@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProductServiceImpl implements ProductService {
     
+    private static final List<String> VALID_CRITERIA = List.of("id", "price", "name");
+    
     private final ProductRepository productRepository;
     
     public ProductServiceImpl(ProductRepository productRepository) {
@@ -65,8 +67,8 @@ public class ProductServiceImpl implements ProductService {
     //상품 전체 조회
     @Override
     public Page<ProductResponseDto> findAllProducts(int pageNo, int pageSize, String criteria, String order) {
-        List<String> validCriteria = List.of("id", "price", "name");
-        if (!validCriteria.contains(criteria)) {
+        
+        if (!VALID_CRITERIA.contains(criteria)) {
             throw new WrongCriteriaException();
         }
         

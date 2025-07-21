@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class WishlistServiceImpl implements WishlistService {
     
+    private static final List<String> VALID_CRITERIA = List.of("id", "productId", "productCnt");
+    
     private final ProductRepository productRepository;
     private final WishlistRepository wishlistRepository;
     
@@ -48,9 +50,7 @@ public class WishlistServiceImpl implements WishlistService {
     
     @Override
     public List<WishlistResponseDto> findMyWishlist(Member user, int pageNo, int pageSize, String criteria, String order) {
-        List<String> validCriteria = List.of("id", "productId", "productCnt");
-        
-        if (!validCriteria.contains(criteria)) {
+        if (!VALID_CRITERIA.contains(criteria)) {
             throw new WrongCriteriaException();
         }
         
