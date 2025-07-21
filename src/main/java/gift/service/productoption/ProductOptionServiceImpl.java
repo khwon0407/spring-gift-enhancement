@@ -75,7 +75,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
         Product product = productRepository.findById(productId).orElseThrow(NoProductInfoException::new);
         ProductOption option = productOptionRepository.findById(optionId).orElseThrow(NoOptionInfoException::new);
         
-        if(!product.getOptions().contains(option) || !option.getProduct().equals(product)) {
+        if(!product.hasOption(option) || !option.isNotForProduct(product)) {
             throw new WrongProductOptionException();
         }
         
