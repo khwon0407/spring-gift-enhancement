@@ -18,9 +18,9 @@ import org.springframework.data.domain.Sort.Direction;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class WishlistRepositoryJpaTest {
+class WishlistRepositoryTest {
     @Autowired
-    private WishlistRepositoryJpa wishlistRepositoryJpa;
+    private WishlistRepository wishlistRepository;
     
     @Test
     void 저장() {
@@ -31,7 +31,7 @@ class WishlistRepositoryJpaTest {
             5L
         );
         
-        var actual = wishlistRepositoryJpa.save(wishlistInfo);
+        var actual = wishlistRepository.save(wishlistInfo);
         
         assertAll(
             () -> assertThat(actual.getId()).isNotNull(),
@@ -48,9 +48,9 @@ class WishlistRepositoryJpaTest {
             5L
         );
         
-        wishlistRepositoryJpa.save(wishlistInfo);
+        wishlistRepository.save(wishlistInfo);
         Pageable pageable = PageRequest.of(0, 1, Sort.by(Direction.ASC, "id"));
-        var actual = wishlistRepositoryJpa.findAllByMemberId(2L, pageable).getContent().get(0).getProductCnt();
+        var actual = wishlistRepository.findAllByMemberId(2L, pageable).getContent().get(0).getProductCnt();
         
         assertThat(actual).isEqualTo(wishlistInfo.getProductCnt());
     }

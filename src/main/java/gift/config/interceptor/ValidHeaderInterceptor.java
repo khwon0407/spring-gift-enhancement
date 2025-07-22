@@ -7,7 +7,7 @@ import gift.exception.common.HttpException;
 import gift.exception.forbidden.WrongPermissionException;
 import gift.exception.unauthorized.WrongHeaderException;
 import gift.exception.unauthorized.WrongIdOrPasswordException;
-import gift.repository.member.MemberRepositoryJpa;
+import gift.repository.member.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -17,10 +17,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class ValidHeaderInterceptor implements HandlerInterceptor {
     
-    private final MemberRepositoryJpa memberRepositoryJpa;
+    private final MemberRepository memberRepository;
     
-    public ValidHeaderInterceptor(MemberRepositoryJpa memberRepositoryJpa) {
-        this.memberRepositoryJpa = memberRepositoryJpa;
+    public ValidHeaderInterceptor(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
     
     @Override
@@ -40,7 +40,7 @@ public class ValidHeaderInterceptor implements HandlerInterceptor {
         String email = (String) request.getAttribute("email");
         Role tokenRole = (Role) request.getAttribute("role");
         
-        Member member = memberRepositoryJpa.findByEmail(email).orElseThrow(
+        Member member = memberRepository.findByEmail(email).orElseThrow(
             WrongIdOrPasswordException::new);
         
         if(!member.getRole().equals(tokenRole)) {

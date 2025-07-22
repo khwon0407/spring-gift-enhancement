@@ -25,3 +25,14 @@
   - id : wishlist에 담은 순서대로 출력
   - productId : 상품 아이디 순서대로 출력
   - productCnt : 상품 개수대로 출력
+
+##Step 3. 상품 옵션
+1. option entity 추가 / id, product, name, quantity로 구성
+2. product는 ManyToOne으로 연결
+3. name은 unique 설정
+4. product에 options 필드 설정, OneToMany로 설정
+5. 옵션이 반드시 하나 이상 존재하도록 설정
+6. add request에 옵션을 반드시 받도록 수정
+7. 옵션 추가 등록 구현, 수정 / 삭제도 필요하다면 구현
+8. 옵션에서 수량 감소 구현
+9. 테스트 코드 작성

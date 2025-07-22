@@ -1,9 +1,12 @@
 package gift.dto.api.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import java.util.List;
 
 public record AddProductRequestDto(
     @Pattern(
@@ -18,36 +21,12 @@ public record AddProductRequestDto(
     @NotNull(message = "이미지 url은 필수입니다.")
     String imageUrl,
     @NotNull(message = "MD 협의 여부는 필수입니다.")
-    Boolean mdOk
+    Boolean mdOk,
+    
+    @NotNull(message = "옵션 목록은 필수입니다.")
+    @Size(min = 1, message = "상품에는 옵션이 최소 1개 이상 있어야 합니다.")
+    List<@Valid OptionRequestDto> options
 ) {
-    
-    public AddProductRequestDto(String name, Long price, String imageUrl, Boolean mdOk) {
-        this.name = name;
-        this.price = price;
-        this.imageUrl = imageUrl;
-        this.mdOk = mdOk;
-    }
-    
-    @Override
-    public String name() {
-        return name;
-    }
-    
-    @Override
-    public Long price() {
-        return price;
-    }
-    
-    @Override
-    public String imageUrl() {
-        return imageUrl;
-    }
-    
-    @Override
-    @JsonProperty("mdOk")
-    public Boolean mdOk() {
-        return mdOk;
-    }
     
     public Boolean goodName() {
         if (name.contains("카카오")) {

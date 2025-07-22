@@ -1,15 +1,19 @@
 package gift.entity;
 
+import gift.exception.badrequest.NoRemoveOptionException;
 import gift.exception.badrequest.WrongPriceException;
-import gift.exception.badrequest.WrongProductCntException;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -27,6 +31,9 @@ public class Product {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
     
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductOption> options = new ArrayList<>();
+    
     @PrePersist
     @PreUpdate
     private void validatePrice() {
@@ -42,7 +49,7 @@ public class Product {
         this.imageUrl = imageUrl;
     }
     
-    public Product() {
+    protected Product() {
     
     }
     
@@ -62,9 +69,46 @@ public class Product {
         return imageUrl;
     }
     
+    public List<ProductOption> getOptions() {
+        return options;
+    }
+    
     public void changeProductInfo(String name, Long price, String imageUrl) {
+        changeName(name);
+        changePrice(price);
+        changeImageUrl(imageUrl);
+    }
+    
+    public void changeName(String name) {
         this.name = name;
+    }
+    
+    public void changePrice(Long price) {
         this.price = price;
+    }
+    
+    public void changeImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    
+    public void addOption(ProductOption option) {
+        this.options.add(option);
+        option.belongToProduct(this);
+    }
+    
+    public void removeOption(ProductOption option) {
+        if(this.options.size() <= 1) {
+            throw new NoRemoveOptionException();
+        }
+        this.options.remove(option);
+        option.belongToProduct(null);
+    }
+    
+    public ProductOption lastOption() {
+        return this.options.get(this.options.size() - 1);
+    }
+    
+    public boolean hasOption(ProductOption option) {
+        return this.options.contains(option);
     }
 }

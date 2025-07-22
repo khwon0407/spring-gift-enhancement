@@ -2,11 +2,13 @@ package gift.controller.product;
 
 import gift.dto.api.product.AddProductRequestDto;
 import gift.dto.api.product.ModifyProductRequestDto;
+import gift.dto.api.product.OptionRequestDto;
 import gift.dto.api.product.ProductResponseDto;
 import gift.dto.htmlform.AddProductForm;
 import gift.dto.htmlform.ModifyProductForm;
 import gift.service.product.ProductService;
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -38,9 +40,10 @@ public class ProductViewController {
         @RequestParam(name = "page", required = false, defaultValue = "0") int pageNo,
         @RequestParam(name = "size", required = false, defaultValue = "2") int pageSize,
         @RequestParam(name = "criteria", required = false, defaultValue = "id") String criteria,
+        @RequestParam(name = "order", required = false, defaultValue = "ASC") String order,
         Model model
     ) {
-        Page<ProductResponseDto> productPage = productService.findAllProducts(pageNo, pageSize, criteria);
+        Page<ProductResponseDto> productPage = productService.findAllProducts(pageNo, pageSize, criteria, order);
         
         model.addAttribute("products", productPage.getContent()); // 목록
         model.addAttribute("page", productPage); // 페이지 정보 (for UI)
@@ -75,11 +78,14 @@ public class ProductViewController {
     //상품 추가 화면에서 제출 버튼 누르면 동작
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid AddProductForm productForm) {
+        List<OptionRequestDto> options = new ArrayList<>();
+        options.add(new OptionRequestDto("기본 옵션", 1L));
         AddProductRequestDto requestDto = new AddProductRequestDto(
             productForm.getName(),
             productForm.getPrice(),
             productForm.getImageUrl(),
-            productForm.getMdOk()
+            productForm.getMdOk(),
+            options
         );
         
         productService.addProduct(requestDto);
